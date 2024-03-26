@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'models/data.dart' as data;
 import 'models/models.dart';
@@ -95,37 +96,11 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            CarouselSlider(
-              options: CarouselOptions(
-                height: 425,
-                enableInfiniteScroll: true,
-                aspectRatio: 16 / 9,
-                viewportFraction: 1.0,
-              ),
-              items: [
-                'assets/gym1.jpg',
-                'assets/gym2.jpg',
-              ].map((item) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    return Column(
-                      children: [
-                        Image.asset(
-                          item,
-                          fit: BoxFit.cover,
-                        ),
-                      ],
-                    );
-                  },
-                );
-              }).toList(),
-            ),
-            SizedBox(height: 10),
             SizedBox(
-              height: 300,
+              height: 500,
               child: Center(
                 child: SizedBox(
-                  width: 300,
+                  width: 500,
                   child: Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
@@ -146,8 +121,6 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: null
-
                                 ),
                               ),
                               SizedBox(height: 8),
@@ -155,8 +128,6 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
                                 'Descrição do Card',
                                 style: TextStyle(
                                   fontSize: 14,
-                                  fontFamily: null
-
                                 ),
                               ),
                             ],
@@ -170,10 +141,10 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
             ),
             const SizedBox(height: 10),
             SizedBox(
-              height: 300,
+              height: 500,
               child: Center(
                 child: SizedBox(
-                  width: 300,
+                  width: 500,
                   child: Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
@@ -194,8 +165,6 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: null
-
                                 ),
                               ),
                               SizedBox(height: 8),
@@ -203,8 +172,6 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
                                 'Descrição do Card',
                                 style: TextStyle(
                                   fontSize: 14,
-                                  fontFamily: null
-
                                 ),
                               ),
                             ],
@@ -218,10 +185,10 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
             ),
             const SizedBox(height: 10),
             SizedBox(
-              height: 300,
+              height: 500,
               child: Center(
                 child: SizedBox(
-                  width: 300,
+                  width: 500,
                   child: Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
