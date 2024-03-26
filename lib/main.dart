@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 import 'models/data.dart' as data;
@@ -30,7 +31,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.amber ),
-      home: Feed(currentUser: data.user_0),
+      home: Feed(),
     );
   }
 }
@@ -38,10 +39,8 @@ class MainApp extends StatelessWidget {
 class Feed extends StatefulWidget {
   const Feed({
     super.key,
-    required this.currentUser,
   });
 
-  final User currentUser;
 
   @override
   State<Feed> createState() => _FeedState();
@@ -92,66 +91,178 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
         return Scaffold(
-          body: SingleChildScrollView( 
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch, 
-        children: [
-          SizedBox(
-            height: 300, 
-            child: Center( 
-              child: SizedBox(
-                width: 300, 
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Image.asset(
-                    'assets/gym1.jpg', 
-                    fit: BoxFit.cover, 
+          body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            CarouselSlider(
+              options: CarouselOptions(
+                height: 425,
+                enableInfiniteScroll: true,
+                aspectRatio: 16 / 9,
+                viewportFraction: 1.0,
+              ),
+              items: [
+                'assets/gym1.jpg',
+                'assets/gym2.jpg',
+              ].map((item) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Column(
+                      children: [
+                        Image.asset(
+                          item,
+                          fit: BoxFit.cover,
+                        ),
+                      ],
+                    );
+                  },
+                );
+              }).toList(),
+            ),
+            SizedBox(height: 10),
+            SizedBox(
+              height: 300,
+              child: Center(
+                child: SizedBox(
+                  width: 300,
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          'assets/gym1.jpg',
+                          fit: BoxFit.cover,
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Título do Card',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: null
+
+                                ),
+                              ),
+                              SizedBox(height: 8),
+                              Text(
+                                'Descrição do Card',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontFamily: null
+
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(height: 10),
-          SizedBox(
-            height: 300, 
-            child: Center( 
-              child: SizedBox(
-                width: 300, 
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Image.asset(
-                    'assets/gym2.jpg', 
-                    fit: BoxFit.cover, 
+            const SizedBox(height: 10),
+            SizedBox(
+              height: 300,
+              child: Center(
+                child: SizedBox(
+                  width: 300,
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          'assets/gym2.jpg',
+                          fit: BoxFit.cover,
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Título do Card',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: null
+
+                                ),
+                              ),
+                              SizedBox(height: 8),
+                              Text(
+                                'Descrição do Card',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontFamily: null
+
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(height: 10),
-          SizedBox(
-            height: 300, 
-            child: Center( 
-              child: SizedBox(
-                width: 300, 
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Image.asset(
-                    'assets/gym4.jpg', // Adicione a imagem gym4
-                    fit: BoxFit.cover, 
+            const SizedBox(height: 10),
+            SizedBox(
+              height: 300,
+              child: Center(
+                child: SizedBox(
+                  width: 300,
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          'assets/gym4.jpg',
+                          fit: BoxFit.cover,
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Título do Card',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: 8),
+                              Text(
+                                'Descrição do Card',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
           bottomNavigationBar: BottomNavigationBar(
             items: const [BottomNavigationBarItem(icon: Icon(Icons.whatshot_rounded), label: 'Exercícios'), BottomNavigationBarItem(icon: Icon(Icons.account_circle_rounded), label: 'Perfil'), BottomNavigationBarItem(icon: Icon(Icons.tune), label: 'Configurações')],
             onTap: (int index) {
@@ -159,7 +270,7 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
             case 0:
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => BlankPage()),
+                MaterialPageRoute(builder: (context) => const Feed()),
               );
               break;
             case 1:
