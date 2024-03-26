@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'animations.dart';
 import 'models/data.dart' as data;
 import 'models/models.dart';
-import 'transitions/list_detail_transition.dart';          // Add import
-import 'widgets/animated_floating_action_button.dart';
 
-import 'widgets/email_list_view.dart';
-import 'widgets/reply_list_view.dart';    
+
 
 class BlankPage extends StatelessWidget {
   @override
@@ -17,11 +13,11 @@ class BlankPage extends StatelessWidget {
         title: const Text('Blank Page'),
       ),
       body: Container(
-        color: Colors.white, // Defina a cor de fundo como branco
+        color: Colors.white, 
       ),
     );
   }
-}                 // Add import
+}  
 
 void main() {
   runApp(const MainApp());
@@ -60,8 +56,6 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
       reverseDuration: const Duration(milliseconds: 1250),
       value: 0,
       vsync: this);
-  late final _railAnimation = RailAnimation(parent: _controller);
-  late final _barAnimation = BarAnimation(parent: _controller);
 
   int selectedIndex = 0;
   bool controllerInitialized = false;
@@ -97,40 +91,67 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, _) {
         return Scaffold(
-          body: Row(
-            children: [
-  
-              Expanded(
-                child: Container(
-                  color: _backgroundColor,
-                                                // Update from here ...
-                  child: ListDetailTransition(
-                    animation: _railAnimation,
-                    one: EmailListView(
-                      selectedIndex: selectedIndex,
-                      onSelected: (index) {
-                        setState(() {
-                          selectedIndex = index;
-                        });
-                      },
-                      currentUser: widget.currentUser,
-                    ),
-                    two: const ReplyListView(),
+          body: SingleChildScrollView( 
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch, 
+        children: [
+          SizedBox(
+            height: 300, 
+            child: Center( 
+              child: SizedBox(
+                width: 300, 
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
                   ),
-                                                // ... to here.
+                  child: Image.asset(
+                    'assets/gym1.jpg', 
+                    fit: BoxFit.cover, 
+                  ),
                 ),
               ),
-            ],
+            ),
           ),
-          floatingActionButton: AnimatedFloatingActionButton(
-            animation: _barAnimation,
-            onPressed: () {},
-            child: const Icon(Icons.add),
+          const SizedBox(height: 10),
+          SizedBox(
+            height: 300, 
+            child: Center( 
+              child: SizedBox(
+                width: 300, 
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Image.asset(
+                    'assets/gym2.jpg', 
+                    fit: BoxFit.cover, 
+                  ),
+                ),
+              ),
+            ),
           ),
+          const SizedBox(height: 10),
+          SizedBox(
+            height: 300, 
+            child: Center( 
+              child: SizedBox(
+                width: 300, 
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Image.asset(
+                    'assets/gym4.jpg', // Adicione a imagem gym4
+                    fit: BoxFit.cover, 
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
           bottomNavigationBar: BottomNavigationBar(
             items: const [BottomNavigationBarItem(icon: Icon(Icons.whatshot_rounded), label: 'Exercícios'), BottomNavigationBarItem(icon: Icon(Icons.account_circle_rounded), label: 'Perfil'), BottomNavigationBarItem(icon: Icon(Icons.tune), label: 'Configurações')],
             onTap: (int index) {
@@ -154,13 +175,8 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
               );
               break;
           }
-              
-            },
-
-     
+            },     
           ),
         );
-      },
-    );
   }
 }

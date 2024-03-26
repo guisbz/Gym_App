@@ -1,3 +1,5 @@
+
+
 class Attachment {
   const Attachment({
     required this.url,
@@ -8,16 +10,16 @@ class Attachment {
 
 class Exercicios {
   const Exercicios({
-    required this.subject,
     required this.content,
     this.replies = 0,
     this.attachments = const [],
   });
 
-  final String subject;
   final String content;
   final List<Attachment> attachments;
   final double replies;
+
+
 }
 
 class Name {
