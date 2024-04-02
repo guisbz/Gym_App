@@ -11,6 +11,7 @@ dependencies:
     sdk: flutter
   carousel_slider: ^4.0.0
   provider: ^6.1.2
+  hive_flutter: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -33,3 +34,6 @@ flutter:
     - assets/gym2.jpg
     - assets/gym3.jpg
     - assets/gym4.jpg
+    - assets/background1.jpg
+    - assets/background2.jpg
+    - assets/background3.jpg

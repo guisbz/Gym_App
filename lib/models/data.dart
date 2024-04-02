@@ -1,50 +1,58 @@
+import 'dart:convert';
+import 'package:flutter/material.dart';
 
-import 'models.dart';
+class Data extends StatelessWidget {
+  final String user;
+  final String? email;
+  final String? password;
+  final bool? isLoggedIn;
+  final int? exercisesCompleted;
+  final int? totalExercises;
+  final String? exerciseName;
 
-final User user_0 = User(
-    name: const Name(first: 'Me', last: ''),
-    avatarUrl: 'assets/avatar_1.png',
-    lastActive: DateTime.now());
-final User user_1 = User(
-    name: const Name(first: '老', last: '强'),
-    avatarUrl: 'assets/avatar_2.png',
-    lastActive: DateTime.now().subtract(const Duration(minutes: 10)));
-final User user_2 = User(
-    name: const Name(first: 'Guilherme', last: 'Barboza'),
-    avatarUrl: 'assets/avatar_3.png',
-    lastActive: DateTime.now().subtract(const Duration(minutes: 20)));
-final User user_3 = User(
-    name: const Name(first: 'Waldemario', last: 'MacDonald'),
-    avatarUrl: 'assets/avatar_4.png',
-    lastActive: DateTime.now().subtract(const Duration(hours: 2)));
-final User user_4 = User(
-    name: const Name(first: 'Ziad', last: 'Aouad'),
-    avatarUrl: 'assets/avatar_5.png',
-    lastActive: DateTime.now().subtract(const Duration(hours: 6)));
+  const Data({
+    super.key,
+    required this.user,
+    this.email,
+    this.password,
+    this.isLoggedIn,
+    this.exercisesCompleted,
+    this.totalExercises,
+    this.exerciseName,
+  });
 
-final List<Exercicios> emails = [
-   const Exercicios(
-    content: 'assets/gym2.jpg',
+  factory Data.fromJson(Map<String, dynamic> json) {
+    return Data(
+      user: json['user'] ?? '',
+      email: json['email'] ?? '',
+      isLoggedIn: json['isLoggedIn'] ?? false,
+      exercisesCompleted: json['exercisesCompleted'] ?? 0,
+      totalExercises: json['totalExercises'] ?? 10,
+    );
+  }
 
-  ),
-   const Exercicios(
-    content: 'assets/gym2.jpg',
+  Map<String, dynamic> toJson() {
+    return {
+      'user': user,
+      'email': email,
+      'isLoggedIn': isLoggedIn,
+      'exercisesCompleted': exercisesCompleted,
+      'totalExercises': totalExercises,
+    };
+  }
 
-  ),
-   const Exercicios(
-    content: 'assets/gym2.jpg',
+  String toJsonString() {
+    return jsonEncode(toJson());
+  }
 
-  ),
+  static Data fromJsonString(String jsonString) {
+    Map<String, dynamic> json = jsonDecode(jsonString);
+    return Data.fromJson(json);
+  }
 
-];
-
-final List<Exercicios> replies = [
-   const Exercicios(
-    content: 'assets/gym2.jpg',
-
-  ),
-   const Exercicios(
-    content: 'assets/gym2.jpg',
-
-  ),
-];
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
+}
