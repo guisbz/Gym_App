@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
+import 'teladelogin2.dart';
+import 'ui/cadastro.dart';
+import 'ui/home.dart';
 
 class BlankPage extends StatelessWidget {
   const BlankPage({super.key});
@@ -11,20 +16,39 @@ class BlankPage extends StatelessWidget {
         title: const Text('Blank Page'),
       ),
       body: Container(
-        color: Colors.white,
+        color: Colors.amber,
       ),
     );
   }
 }
 
-void main() {
+void main() async {
+  await _initHive();
   runApp(
     ChangeNotifierProvider(
       create: (context) => _FeedState(),
-      child: MainApp(),
+      child: const TelaDeLogin(),
     ),
   );
 }
+
+Future<void> _initHive() async {
+  await Hive.initFlutter();
+  await Hive.openBox("login");
+  await Hive.openBox("accounts");
+}
+
+Color primary = Colors.blue;
+Brightness brightness = Brightness.light;
+Color onPrimary = Colors.blue;
+Color secondary = Colors.blue;
+Color onSecondary = Colors.blue;
+Color error = Colors.blue;
+Color onError = Colors.blue;
+Color background = Colors.blue;
+Color onBackground = Colors.blue;
+Color surface = Colors.blue;
+Color onSurface = Colors.blue;
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
@@ -32,7 +56,22 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.amber),
+      theme: ThemeData(
+        // colorScheme: ColorScheme(
+        //     brightness: brightness,
+        //     primary: primary,
+        //     onPrimary: onPrimary,
+        //     secondary: secondary,
+        //     onSecondary: onSecondary,
+        //     error: error,
+        //     onError: onError,
+        //     background: background,
+        //     onBackground: onBackground,
+        //     surface: surface,
+        //     onSurface: onSurface),
+        useMaterial3: true,
+        colorSchemeSeed: Colors.amber,
+      ),
       home: const Feed(),
     );
   }
@@ -217,10 +256,10 @@ class Feed extends StatelessWidget {
           onTap: (int index) {
             switch (index) {
               case 0:
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Feed()),
-                );
+                // Navigator.pushReplacement(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => const Feed()),
+                // );
                 break;
               case 1:
                 Navigator.push(
@@ -251,5 +290,171 @@ class _FeedState extends ChangeNotifier {
       exercisesCompleted++;
       notifyListeners();
     }
+  }
+}
+
+class Login extends StatefulWidget {
+  const Login({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  final GlobalKey<FormState> _formKey = GlobalKey();
+
+  final FocusNode _focusNodePassword = FocusNode();
+  final TextEditingController _controllerUsername = TextEditingController();
+  final TextEditingController _controllerPassword = TextEditingController();
+
+  bool _obscurePassword = true;
+  final Box _boxLogin = Hive.box("login");
+  final Box _boxAccounts = Hive.box("accounts");
+
+  @override
+  Widget build(BuildContext context) {
+    if (_boxLogin.get("loginStatus") ?? false) {
+      return Home();
+    }
+
+    return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      body: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(30.0),
+          child: Column(
+            children: [
+              const SizedBox(height: 150),
+              Text(
+                "Bem vindo de volta!",
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
+              const SizedBox(height: 50),
+              TextFormField(
+                controller: _controllerUsername,
+                keyboardType: TextInputType.name,
+                decoration: InputDecoration(
+                  labelText: "Usuário",
+                  prefixIcon: const Icon(Icons.person_outline),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                onEditingComplete: () => _focusNodePassword.requestFocus(),
+                validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return "Por favor digite seu nome de usuário.";
+                  } else if (!_boxAccounts.containsKey(value)) {
+                    return "Username is not registered.";
+                  }
+
+                  return null;
+                },
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
+                controller: _controllerPassword,
+                focusNode: _focusNodePassword,
+                obscureText: _obscurePassword,
+                keyboardType: TextInputType.visiblePassword,
+                decoration: InputDecoration(
+                  labelText: "Senha",
+                  prefixIcon: const Icon(Icons.password_outlined),
+                  suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _obscurePassword = !_obscurePassword;
+                        });
+                      },
+                      icon: _obscurePassword
+                          ? const Icon(Icons.visibility_outlined)
+                          : const Icon(Icons.visibility_off_outlined)),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter password.";
+                  } else if (value !=
+                      _boxAccounts.get(_controllerUsername.text)) {
+                    return "Wrong password.";
+                  }
+
+                  return null;
+                },
+              ),
+              const SizedBox(height: 50),
+              Column(
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size.fromHeight(50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    onPressed: () {
+                      if (_formKey.currentState?.validate() ?? false) {
+                        _boxLogin.put("loginStatus", true);
+                        _boxLogin.put("userName", _controllerUsername.text);
+
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const Feed();
+                            },
+                          ),
+                        );
+                      }
+                    },
+                    child: const Text("Login"),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Não possui uma conta?"),
+                      TextButton(
+                        onPressed: () {
+                          _formKey.currentState?.reset();
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return const Signup();
+                              },
+                            ),
+                          );
+                        },
+                        child: const Text("Cadastrar"),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _focusNodePassword.dispose();
+    _controllerUsername.dispose();
+    _controllerPassword.dispose();
+    super.dispose();
   }
 }
