@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Aplicativo de Academia',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
@@ -52,16 +52,16 @@ class _HomeState extends State<Home> {
         context, MaterialPageRoute(builder: (context) => const LoginPage()));
   }
 
-  final noteStream = supabase.from('notes').stream(primaryKey: ['id']);
+  final noteStream = supabase.from('exercises').stream(primaryKey: ['id']);
 
   //Create Note
-  Future<void> createNote(String note) async {
-    await supabase.from('notes').insert({'body': note});
+  Future<void> createNote(String nome) async {
+    await supabase.from('exercises').insert({'body': nome});
   }
 
   // Update Note
-  Future<void> updateNote(String noteId, String updatedNote) async {
-    await supabase.from('notes').update({'body': updatedNote}).eq('id', noteId);
+  Future<void> updateNote(String exId, String updatedNote) async {
+    await supabase.from('notes').update({'body': updatedNote}).eq('id', exId);
   }
 
   // Delete Note
